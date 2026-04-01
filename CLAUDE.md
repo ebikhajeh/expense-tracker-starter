@@ -15,12 +15,19 @@ No test runner is configured.
 
 ## Architecture
 
-This is a single-component React app (Vite + React 19). All logic lives in `src/App.jsx` — there are no sub-components, routing, or external state management.
+React + Vite app (React 19). No routing, no external state management.
 
-**Data model** — each transaction has: `{ id, description, amount, type, category, date }` where `type` is `"income"` or `"expense"` and `amount` is stored as a string (not a number).
+**Components**
 
-**Known bugs** — `amount` is stored as a string, so `totalIncome`, `totalExpenses`, and `balance` computed via `.reduce()` will produce string concatenation instead of numeric sums. This is intentional per the course material.
+- `App.jsx` — holds the `transactions` array in state and passes data/callbacks down. No rendering logic beyond layout.
+- `Summary.jsx` — receives `transactions`, computes `totalIncome`, `totalExpenses`, and `balance` internally.
+- `TransactionForm.jsx` — owns its own form state; calls `onAdd(transaction)` prop when submitted.
+- `TransactionList.jsx` — receives `transactions`, owns filter state (`filterType`, `filterCategory`) internally.
 
-**State** — all state is in-memory (`useState`); there is no persistence layer. Transactions reset on page reload.
+**Data model** — each transaction: `{ id, description, amount, type, category, date }` where `type` is `"income"` or `"expense"` and `amount` is a number.
+
+**Categories** — defined as a constant array in both `TransactionForm.jsx` and `TransactionList.jsx`: `["food", "housing", "utilities", "transport", "entertainment", "salary", "other"]`.
+
+**State** — all in-memory (`useState`); no persistence layer. Transactions reset on page reload.
 
 **Styling** — plain CSS in `src/App.css` and `src/index.css`. No CSS framework.
