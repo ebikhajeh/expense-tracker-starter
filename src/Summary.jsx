@@ -1,3 +1,5 @@
+const fmt = (n) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
+
 function Summary({ transactions }) {
   const totalIncome = transactions
     .filter(t => t.type === "income")
@@ -8,19 +10,22 @@ function Summary({ transactions }) {
     .reduce((sum, t) => sum + t.amount, 0);
 
   const balance = totalIncome - totalExpenses;
+
+  const balanceClass = balance > 0 ? 'positive-balance' : balance < 0 ? 'negative-balance' : '';
+
   return (
     <div className="summary">
       <div className="summary-card">
         <h3>Income</h3>
-        <p className="income-amount">${totalIncome}</p>
+        <p className="income-amount">{fmt(totalIncome)}</p>
       </div>
       <div className="summary-card">
         <h3>Expenses</h3>
-        <p className="expense-amount">${totalExpenses}</p>
+        <p className="expense-amount">{fmt(totalExpenses)}</p>
       </div>
       <div className="summary-card">
         <h3>Balance</h3>
-        <p className="balance-amount">${balance}</p>
+        <p className={`balance-amount ${balanceClass}`}>{fmt(balance)}</p>
       </div>
     </div>
   );
