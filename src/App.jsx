@@ -31,8 +31,10 @@ function App() {
       <p className="subtitle">Track your income and expenses</p>
 
       <Summary transactions={transactions} />
-      <SpendingChart transactions={transactions} />
-      <TransactionForm onAdd={handleAdd} />
+      <div className="middle-grid">
+        <SpendingChart transactions={transactions} />
+        <TransactionForm onAdd={handleAdd} />
+      </div>
       <TransactionList transactions={transactions} onDelete={handleDelete} />
     </div>
   );
